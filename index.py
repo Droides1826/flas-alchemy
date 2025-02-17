@@ -1,6 +1,6 @@
 from app import app
 from utils.db import db
-from Routes.Categorias import categorias
+from routes.categorias import categorias
 
 
 with app.app_context():

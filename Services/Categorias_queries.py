@@ -1,5 +1,5 @@
 from utils.db import db
-from Models.Categorias import Categorias
+from models.categorias import Categorias
 
 
 class CategoriasQuery:

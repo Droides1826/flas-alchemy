@@ -1,7 +1,5 @@
 from utils.db import db
 
-
-
 class Categorias(db.Model):
     __tablename__ = 'categorias'
 
