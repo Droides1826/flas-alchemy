@@ -1,20 +1,20 @@
 from flask import Blueprint, request, jsonify
-from services.categorias_queries import categorias_queries
-from utils.db import db
-from models.categorias import Categoria
+from Services.Categorias_query import CategoriasQuery
 
-Categorias_bp = Blueprint('Categorias', __name__)
 
-@Categorias_bp.route('/consultar_categorias', methods=['GET'])
-def obtener_categorias():
-    categorias = categorias_queries.obtener_categorias()
-    categorias_json = [
+categorias = Blueprint('categorias', __name__)
+
+
+@categorias.route('/categorias', methods=['GET'])
+def obtener_Categorias():
+    print("Accediendo a la ruta /categorias")
+    categoria = CategoriasQuery.obtener_categorias()
+    categorias_lista = [
         {
-            "id_categoria": c.id_categoria,
-            "nombre": c.nombre,
-            "descripcion": c.descripcion,
-            "estado": c.estado
-        }
-        for c in categorias
+            'id_categoria': categoria.id_categoria,
+            'nombre': categoria.nombre,
+            'descripcion': categoria.descripcion,
+            'estado': categoria.estado
+        } for categoria in categoria
     ]
-    return jsonify(categorias_json), 200
+    return jsonify(categorias_lista), 200
