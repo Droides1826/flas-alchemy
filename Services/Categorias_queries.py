@@ -1,5 +1,6 @@
 from utils.db import db
 from models.categorias import Categorias
+from models.historial_cambios_categorias import HistorialCambiosCategoria
 from flask import jsonify
 
 activo = 1
@@ -30,10 +31,12 @@ class CategoriasQuery:
     @staticmethod
     def cambiar_estado_categoria(valores_categorias):
         categoria = Categorias.query.filter_by(id_categoria=valores_categorias["id_categoria"]).first()
-
+        
+        historial = HistorialCambiosCategoria(id_categoria=valores_categorias["id_categoria"], campo="estado", valor_antiguo=categoria.estado, valor_nuevo=valores_categorias["estado"])
         if categoria.estado == activo:  
             categoria.estado = inactivo  
         elif categoria.estado == inactivo:  
             categoria.estado = activo
+        db.session.add(historial)
         db.session.commit()
         

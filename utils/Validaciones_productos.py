@@ -64,14 +64,19 @@ def actualizar_productos(valores_productos):
 def cambiar_estado_productos(valores_productos):
     if not valores_productos['id_producto'] or not valores_productos['estado']:
         return "El ID del producto y el estado son obligatorios."
-    1
+    
     if not Validaciones.es_solo_numeros(valores_productos['id_producto']):
         return "El ID del producto debe ser un número."
     
     if not Validaciones.es_solo_numeros(valores_productos['estado']):
-        return "El estado del producto debe ser solo letras."
-    
-    if not valores_productos['estado'].lower() in ["activo", "inactivo"]:
-        return "El estado del producto debe ser 'Activo' o 'Inactivo'."
-    
+        return "El estado de la categoría debe ser solo números, 1:Activo, 2:Inactivo."
+    if si_existe_producto_por_id(valores_productos):
+        return "El producto no existe."
     return None
+
+def si_existe_producto_por_id(valores_productos):
+    from models.productos import Productos
+    producto = Productos.query.filter_by(id_producto=valores_productos["id_producto"]).first()
+    if producto is None:
+        return True
+    return False
