@@ -2,6 +2,7 @@ from flask import Flask
 from utils.db import db
 from routes.categorias import categorias
 from routes.productos import productos 
+from routes.pedidos import pedidos
 
 app = Flask(__name__)
 
@@ -13,3 +14,4 @@ db.init_app(app)
 
 app.register_blueprint(categorias)
 app.register_blueprint(productos)
+app.register_blueprint(pedidos)

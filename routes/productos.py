@@ -21,7 +21,6 @@ def obtener_productos():
     ]
     return jsonify(productos_lista), 200
 
-
 @productos.route('/ingresar_productos', methods=['POST'])
 def ingresar_producto():
     try:
@@ -51,8 +50,8 @@ def actualizar_producto():
             "nombre": request.json["nombre"],
             "descripcion": request.json["descripcion"],
             "cantidad": request.json["cantidad"],
-            "precio": request.json["precio"],
-            "id_categoria": request.json["id_categoria"]
+            "precio": request.json["precio"]
+           
         }
         ProductosQuery.actualizar_producto(valores_productos)
         return jsonify("producto actualizado"), 200
@@ -70,9 +69,10 @@ def cambiar_estado_producto():
         validacion = cambiar_estado_productos(valores_productos)
         if validacion:
             return respuesta_json_fail(validacion, 400)
+            
         existe = ProductosQuery.cambiar_estado_producto(valores_productos)
         if  existe:
             return respuesta_json_fail("El producto no existe", 400)
-        return jsonify("Estado del producto cambiado"), 200
+        return jsonify(f"Estado del producto cambiado"), 200
     except Exception as e:
         return jsonify(str(e)), 400

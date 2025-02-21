@@ -1,5 +1,5 @@
 from utils import Validaciones
-
+from models.productos import Productos
 
 def validaciones_ingresar_productos(valores_productos):
 
@@ -72,10 +72,14 @@ def cambiar_estado_productos(valores_productos):
         return "El estado de la categoría debe ser solo números, 1:Activo, 2:Inactivo."
     if si_existe_producto_por_id(valores_productos):
         return "El producto no existe."
+    estado_anterior = Productos.query.filter_by(id_producto=valores_productos["id_producto"]).first().estado
+    if estado_anterior == int(valores_productos['estado']):
+        return "El estado del producto ya está en el estado, No es necesario realizar cambios."
+    
     return None
 
 def si_existe_producto_por_id(valores_productos):
-    from models.productos import Productos
+    
     producto = Productos.query.filter_by(id_producto=valores_productos["id_producto"]).first()
     if producto is None:
         return True

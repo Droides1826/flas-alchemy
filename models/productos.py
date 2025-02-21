@@ -2,7 +2,8 @@ from utils.db import db
 from datetime import datetime
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey, Column, Integer, String, DateTime
-from models.historial_cambios_productos import HistorialCambiosProducto  # Importa el historial
+from models.historial_cambios_productos import HistorialCambiosProducto  
+from models.pedidos import Pedidos  
 
 class Productos(db.Model):
     __tablename__ = 'productos'
@@ -17,4 +18,5 @@ class Productos(db.Model):
 
     categoria = relationship("Categorias", back_populates="productos")
     historial_cambios = db.relationship("HistorialCambiosProducto", back_populates="producto", cascade="all, delete-orphan")
+    pedidos = db.relationship("Pedidos", back_populates="producto")
 

@@ -8,9 +8,9 @@ class HistorialCambiosCategoria(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_categoria = db.Column(db.Integer, db.ForeignKey('categorias.id_categoria'), nullable=False)
-    campo = db.Column(db.String(100), nullable=False)
-    valor_antiguo = db.Column(db.String(255), nullable=False)
-    valor_nuevo = db.Column(db.String(255), nullable=False)
-    fecha_cambio = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(255), nullable=False)
+    estado = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
 
     categoria = db.relationship("Categorias", back_populates="historial_cambios")

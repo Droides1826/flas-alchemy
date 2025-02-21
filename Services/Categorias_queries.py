@@ -16,27 +16,32 @@ class CategoriasQuery:
         categoria = Categorias(nombre=valores_categorias["nombre"], descripcion=valores_categorias["descripcion"], estado=activo)
         db.session.add(categoria)
         db.session.commit()
+        registro = HistorialCambiosCategoria(id_categoria=categoria.id_categoria, nombre=valores_categorias["nombre"], descripcion=valores_categorias["descripcion"], estado=activo) 
+        db.session.add(registro)
+        db.session.commit()
 
     
     @staticmethod
     def actualizar_categoria(valores_categorias):
         categoria = Categorias.query.filter_by(id_categoria=valores_categorias["id_categoria"]).first()
-
         if valores_categorias["nombre"]:
             categoria.nombre = valores_categorias["nombre"]
         if valores_categorias["descripcion"]:
             categoria.descripcion = valores_categorias["descripcion"]
+
+        registro = HistorialCambiosCategoria(id_categoria=valores_categorias["id_categoria"], nombre=categoria.nombre, descripcion=categoria.descripcion, estado=categoria.estado)
+        db.session.add(registro)
+        
         db.session.commit()
     
     @staticmethod
     def cambiar_estado_categoria(valores_categorias):
         categoria = Categorias.query.filter_by(id_categoria=valores_categorias["id_categoria"]).first()
-        
-        historial = HistorialCambiosCategoria(id_categoria=valores_categorias["id_categoria"], campo="estado", valor_antiguo=categoria.estado, valor_nuevo=valores_categorias["estado"])
+        registro = HistorialCambiosCategoria(id_categoria=valores_categorias["id_categoria"], nombre=categoria.nombre, descripcion=categoria.descripcion, estado=valores_categorias["estado"])
         if categoria.estado == activo:  
             categoria.estado = inactivo  
         elif categoria.estado == inactivo:  
             categoria.estado = activo
-        db.session.add(historial)
+        db.session.add(registro)
         db.session.commit()
         

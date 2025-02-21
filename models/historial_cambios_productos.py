@@ -8,10 +8,12 @@ class HistorialCambiosProducto(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_producto = db.Column(db.Integer, db.ForeignKey('productos.id_producto', ondelete='CASCADE'), nullable=False)
-    campo = db.Column(db.String(100), nullable=False)
-    valor_antiguo = db.Column(db.String(255), nullable=True)
-    valor_nuevo = db.Column(db.String(255), nullable=True)
-    fecha_cambio = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(255), nullable=True)
+    cantidad = db.Column(db.Integer, nullable=True)
+    precio = db.Column(db.Float, nullable=True)
+    estado = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     
     producto = relationship("Productos", back_populates="historial_cambios")

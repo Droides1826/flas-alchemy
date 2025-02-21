@@ -49,29 +49,23 @@ def es_solo_numeros(valor) -> bool:
 
 def validacion_de_nombre(nombre: str) -> bool:
     if not nombre:
-        print("El nombre del producto es obligatorio.")
         return False
     if not es_solo_letras(nombre):
-        print("El nombre del producto debe contener solo letras y no caracteres especiales.")
         return False
         
     if tiene_caracteres_especiales(nombre):
-        print("El nombre del producto no puede contener caracteres especiales.")
         return False
     if not limite_caracteres(nombre, 30):
-        print("El nombre del producto no puede tener más de 30 caracteres.")
         return False
     return True
 
 def validacion_nombre(nombre: str) -> bool:  
     if not nombre:
-        print("El nombre del producto es obligatorio.")
+       
         return False
     if not limite_caracteres(nombre, 30):
-        print("El nombre del producto no puede tener más de 30 caracteres.")
         return False
     if es_solo_numeros(nombre):
-        print("El nombre del producto no puede ser solo números.")
         return False
     return True
 
