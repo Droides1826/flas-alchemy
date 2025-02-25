@@ -1,8 +1,8 @@
+from utils.respuestas import respuesta_fail, respuesta_success
 from flask import Blueprint, request, jsonify
 from services.pedidos_queries import PedidosQuery
-from models.pedidos import Pedidos
-from utils.Validaciones_pedidos import validacion_de_actualizar_estado_pedidos
-from utils.respuestas import respuesta_json_fail
+from utils.Validaciones_pedidos import validacion_de_actualizar_estado_pedidos, validacion_de_ingresar_pedidos
+
 
 pedidos = Blueprint('pedidos', __name__)
 
@@ -18,7 +18,7 @@ def obtener_pedidos():
             'fecha': p.fecha_pedido
         } for p in pedidos
     ]
-    return jsonify(pedidos_lista), 200
+    return respuesta_success(pedidos_lista)
 
 @pedidos.route('/cambiar_estado_pedidos', methods=['PUT'])
 def cambiar_estado_pedido():
@@ -30,12 +30,29 @@ def cambiar_estado_pedido():
         
         validacion = validacion_de_actualizar_estado_pedidos(valores_pedidos)
         if validacion:
-            return respuesta_json_fail(validacion, 400)
+            return respuesta_fail(validacion)
 
         error = PedidosQuery.cambiar_estado_pedido(valores_pedidos)
         if error:
-            return jsonify({"error": error}), 400
+            return respuesta_fail(error)	
 
-        return jsonify("Estado cambiado con éxito"), 200
+        return respuesta_success("Estado del pedido actualizado con éxito")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@pedidos.route('/crear_pedido', methods=['POST'])
+def crear_pedido():
+    try:
+        valores_pedidos = {
+            "id_producto": request.json["id_producto"],
+            "cantidad": request.json["cantidad"],
+        }
+        validacion = validacion_de_ingresar_pedidos(valores_pedidos)
+        if validacion:
+            return respuesta_fail(validacion)
+        
+        insertar = PedidosQuery.crear_pedido(valores_pedidos)
+        PedidosQuery.historial_crear_pedidos(insertar)
+        return respuesta_success("Pedido creado con éxito")
     except Exception as e:
         return jsonify({"error": str(e)}), 400

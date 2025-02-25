@@ -13,5 +13,6 @@ class Pedidos(db.Model):
     precio_unitario = db.Column(db.Numeric(10,2), nullable=False)
     total = db.Column(db.Numeric(10,2), nullable=False)
     estado = db.Column(db.Integer, default=3, nullable=False)
+    
     producto = db.relationship("Productos", back_populates="pedidos")
     historial_cambios = db.relationship("HistorialCambiosPedidos", back_populates="pedido", cascade="all, delete-orphan")

@@ -1,10 +1,17 @@
+from utils.respuestas import respuesta_fail
+
+import uuid
+import os
 from flask import Blueprint, request, jsonify
 from services.Productos_queries import ProductosQuery
-from models.productos import Productos
+from utils.respuestas import respuesta_created, respuesta_success
 from utils.Validaciones_productos import validaciones_ingresar_productos, cambiar_estado_productos
-from utils.respuestas import respuesta_json_fail
 
 productos = Blueprint('productos', __name__)
+
+UPLOAD_FOLDER = "static/uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @productos.route('/productos', methods=['GET'])
 def obtener_productos():
@@ -16,10 +23,11 @@ def obtener_productos():
             'cantidad': producto.cantidad,
             'precio': producto.precio,
             'id_categoria': producto.id_categoria,
-            'id_producto': producto.id_producto
+            'id_producto': producto.id_producto,
+            'imagenes': producto.imagenes
         } for producto in producto
     ]
-    return jsonify(productos_lista), 200
+    return respuesta_success(productos_lista)
 
 @productos.route('/ingresar_productos', methods=['POST'])
 def ingresar_producto():
@@ -29,16 +37,21 @@ def ingresar_producto():
             "descripcion": request.json["descripcion"],
             "cantidad": request.json["cantidad"],
             "precio": request.json["precio"],
-            "id_categoria": request.json["id_categoria"]
+            "id_categoria": request.json["id_categoria"],
+            "imagenes": request.json["imagenes"]
         }
+
+        
         validacion = validaciones_ingresar_productos(valores_productos)
         if validacion:
-            return respuesta_json_fail(validaciones_ingresar_productos(valores_productos), 400)
-
+            return respuesta_fail(validacion)
         ProductosQuery.crear_producto(valores_productos)
-        return jsonify("producto creado"), 200
+        return respuesta_created("Producto creado con éxito")
     except Exception as e:
         return jsonify(str(e)), 400
+    
+
+
     
 
 
@@ -50,11 +63,14 @@ def actualizar_producto():
             "nombre": request.json["nombre"],
             "descripcion": request.json["descripcion"],
             "cantidad": request.json["cantidad"],
-            "precio": request.json["precio"]
+            "precio": request.json["precio"],
+            
+
            
         }
+        
         ProductosQuery.actualizar_producto(valores_productos)
-        return jsonify("producto actualizado"), 200
+        return respuesta_success("Producto actualizado con éxito")
     except Exception as e:
         return jsonify(str(e)), 400
     
@@ -68,11 +84,16 @@ def cambiar_estado_producto():
         }
         validacion = cambiar_estado_productos(valores_productos)
         if validacion:
-            return respuesta_json_fail(validacion, 400)
+            return respuesta_fail(validacion)
             
-        existe = ProductosQuery.cambiar_estado_producto(valores_productos)
-        if  existe:
-            return respuesta_json_fail("El producto no existe", 400)
-        return jsonify(f"Estado del producto cambiado"), 200
+        ProductosQuery.cambiar_estado_producto(valores_productos)
+        return respuesta_success("Estado del producto actualizado con éxito")
     except Exception as e:
         return jsonify(str(e)), 400
+
+
+
+
+
+
+

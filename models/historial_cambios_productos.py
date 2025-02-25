@@ -13,6 +13,7 @@ class HistorialCambiosProducto(db.Model):
     cantidad = db.Column(db.Integer, nullable=True)
     precio = db.Column(db.Float, nullable=True)
     estado = db.Column(db.Integer, nullable=False)
+    imagenes = db.Column(db.String(255), nullable=True)
     fecha = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     

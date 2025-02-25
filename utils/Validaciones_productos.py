@@ -34,6 +34,7 @@ def validaciones_ingresar_productos(valores_productos):
 
 
 def actualizar_productos(valores_productos):
+
     if not valores_productos['id_producto']:
         return "El ID del producto es obligatorio."
     
@@ -50,6 +51,7 @@ def actualizar_productos(valores_productos):
     if valores_productos["descripcion"]:
         if not Validaciones.limite_caracteres(valores_productos["descripcion"], 255):
             return "La descripción no puede tener más de 255 caracteres."
+        
         if not Validaciones.validacion_descripcion(valores_productos["descripcion"]):
             return "La descripción no puede tener caracteres especiales,iniciar con un numero U ser solo numeros."
     
@@ -62,6 +64,7 @@ def actualizar_productos(valores_productos):
 
 
 def cambiar_estado_productos(valores_productos):
+
     if not valores_productos['id_producto'] or not valores_productos['estado']:
         return "El ID del producto y el estado son obligatorios."
     
@@ -70,8 +73,10 @@ def cambiar_estado_productos(valores_productos):
     
     if not Validaciones.es_solo_numeros(valores_productos['estado']):
         return "El estado de la categoría debe ser solo números, 1:Activo, 2:Inactivo."
+    
     if si_existe_producto_por_id(valores_productos):
         return "El producto no existe."
+    
     estado_anterior = Productos.query.filter_by(id_producto=valores_productos["id_producto"]).first().estado
     if estado_anterior == int(valores_productos['estado']):
         return "El estado del producto ya está en el estado, No es necesario realizar cambios."
@@ -83,4 +88,5 @@ def si_existe_producto_por_id(valores_productos):
     producto = Productos.query.filter_by(id_producto=valores_productos["id_producto"]).first()
     if producto is None:
         return True
+    
     return False
