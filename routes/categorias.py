@@ -1,8 +1,8 @@
+from utils.auth import require_auth
 from flask import Blueprint, request, jsonify
 from services.Categorias_queries import CategoriasQuery
 from utils.respuestas import respuesta_success, respuesta_fail, respuesta_no_encontrado, respuesta_created, respuesta_conflicto
 from utils.Validaciones_categorias import validaciones_ingresar_categorias, si_existe_categoria, validaciones_actualizar_categorias, si_existe_categoria_por_id, validaciones_cambiar_estado_categorias
-from utils.auth_utils import require_auth
 
 categorias = Blueprint('categorias', __name__)
 
@@ -22,6 +22,7 @@ def obtener_Categorias():
     return respuesta_success(categorias_lista)
 
 @categorias.route('/ingresar_categorias', methods=['POST'])
+@require_auth
 def ingresar_categoria():
     try:
         valores_categorias = {
@@ -42,6 +43,7 @@ def ingresar_categoria():
         return jsonify(str(e)), 400
 
 @categorias.route('/actualizar_categorias', methods=['PUT'])	
+@require_auth
 def actualizar_categoria():
     try:
         valores_categorias = {
@@ -65,6 +67,7 @@ def actualizar_categoria():
     
 
 @categorias.route('/cambiar_estado_categorias', methods=['PUT'])
+@require_auth
 def cambiar_estado_categoria():
     try:
         valores_categorias = {

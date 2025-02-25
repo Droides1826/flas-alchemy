@@ -1,8 +1,8 @@
-from utils.respuestas import respuesta_fail, respuesta_success
 from flask import Blueprint, request, jsonify
 from services.pedidos_queries import PedidosQuery
+from utils.respuestas import respuesta_fail, respuesta_success
 from utils.Validaciones_pedidos import validacion_de_actualizar_estado_pedidos, validacion_de_ingresar_pedidos
-from utils.auth_utils import require_auth
+from utils.auth import require_auth
 
 pedidos = Blueprint('pedidos', __name__)
 
@@ -22,6 +22,7 @@ def obtener_pedidos():
     return respuesta_success(pedidos_lista)
 
 @pedidos.route('/cambiar_estado_pedidos', methods=['PUT'])
+@require_auth
 def cambiar_estado_pedido():
     try:
         valores_pedidos = {
@@ -42,6 +43,7 @@ def cambiar_estado_pedido():
         return jsonify({"error": str(e)}), 400
     
 @pedidos.route('/crear_pedido', methods=['POST'])
+@require_auth
 def crear_pedido():
     try:
         valores_pedidos = {

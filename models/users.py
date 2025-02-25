@@ -11,4 +11,3 @@ class User(db.Model):
     username = Column(String(100), unique=True, nullable=False)
     password = Column(String(255), nullable=False) 
 
-    user_id = relationship('Session', back_populates='user', cascade='all, delete-orphan')

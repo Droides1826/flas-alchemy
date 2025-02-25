@@ -1,7 +1,6 @@
-from utils.respuestas import respuesta_fail
-
-import uuid
 import os
+from utils.auth import require_auth
+from utils.respuestas import respuesta_fail
 from flask import Blueprint, request, jsonify
 from services.Productos_queries import ProductosQuery
 from utils.respuestas import respuesta_created, respuesta_success
@@ -14,6 +13,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 @productos.route('/productos', methods=['GET'])
+@require_auth
 def obtener_productos():
     producto = ProductosQuery.obtener_productos()
     productos_lista = [
@@ -30,6 +30,7 @@ def obtener_productos():
     return respuesta_success(productos_lista)
 
 @productos.route('/ingresar_productos', methods=['POST'])
+@require_auth
 def ingresar_producto():
     try:
         valores_productos = {
@@ -56,6 +57,7 @@ def ingresar_producto():
 
 
 @productos.route('/actualizar_productos', methods=['PUT'])
+@require_auth
 def actualizar_producto():
     try:
         valores_productos = {
@@ -76,6 +78,7 @@ def actualizar_producto():
     
 
 @productos.route('/cambiar_estado_productos', methods=['PUT'])
+@require_auth
 def cambiar_estado_producto():
     try:
         valores_productos = {
