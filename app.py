@@ -4,6 +4,8 @@ from utils.db import db
 from routes.pedidos import pedidos
 from routes.productos import productos 
 from routes.categorias import categorias
+from routes.auth_routes import auth_bp
+
 from flask import Flask, request, jsonify
 from utils.respuestas import respuesta_fail, respuesta_success
 import uuid
@@ -44,3 +46,4 @@ db.init_app(app)
 app.register_blueprint(pedidos)
 app.register_blueprint(productos)
 app.register_blueprint(categorias)
+app.register_blueprint(auth_bp)

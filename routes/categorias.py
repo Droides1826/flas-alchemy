@@ -2,12 +2,13 @@ from flask import Blueprint, request, jsonify
 from services.Categorias_queries import CategoriasQuery
 from utils.respuestas import respuesta_success, respuesta_fail, respuesta_no_encontrado, respuesta_created, respuesta_conflicto
 from utils.Validaciones_categorias import validaciones_ingresar_categorias, si_existe_categoria, validaciones_actualizar_categorias, si_existe_categoria_por_id, validaciones_cambiar_estado_categorias
-
+from utils.auth_utils import require_auth
 
 categorias = Blueprint('categorias', __name__)
 
 
 @categorias.route('/categorias', methods=['GET'])
+@require_auth
 def obtener_Categorias():
     categoria = CategoriasQuery.obtener_categorias()
     categorias_lista = [

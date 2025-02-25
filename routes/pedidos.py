@@ -2,11 +2,12 @@ from utils.respuestas import respuesta_fail, respuesta_success
 from flask import Blueprint, request, jsonify
 from services.pedidos_queries import PedidosQuery
 from utils.Validaciones_pedidos import validacion_de_actualizar_estado_pedidos, validacion_de_ingresar_pedidos
-
+from utils.auth_utils import require_auth
 
 pedidos = Blueprint('pedidos', __name__)
 
 @pedidos.route('/pedidos', methods=['GET'])
+@require_auth
 def obtener_pedidos():
     pedidos = PedidosQuery.obtener_pedidos()
     pedidos_lista = [
