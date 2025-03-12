@@ -1,12 +1,13 @@
 
+// Limit nombres 30
+// Limit Response 255
+
+
 interface Categoria {
 	descripcion: string
 	id_categoria: number
 	nombre: string
 }
-
-
-
 
 
 enum CodigoStatus {
@@ -18,11 +19,10 @@ enum CodigoStatus {
 };
 
 
-
-
 // Status enum aqui
 
 interface Response {
 	message: string
-	status: 
+	status: CodigoStatus
+	data: Categoria[]
 }
