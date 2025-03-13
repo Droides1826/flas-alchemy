@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from Services.auth_queries import  login_user
+from services.auth_queries import  login_user
 from utils.db import db
 from utils.respuestas import respuesta_fail, respuesta_no_autorizado, respuesta_success
 
