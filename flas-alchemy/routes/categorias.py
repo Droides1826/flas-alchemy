@@ -8,8 +8,8 @@ categorias = Blueprint('categorias', __name__)
 
 
 @categorias.route('/categorias', methods=['GET'])
-
 def obtener_Categorias():
+
     categoria = CategoriasQuery.obtener_categorias()
     categorias_lista = [
         {
