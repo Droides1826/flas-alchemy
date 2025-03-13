@@ -1,4 +1,8 @@
+
+import { Categoria } from "../types/response"
+
 export default function List(){
+    
     return(
         <div className="flex flex-row rounded-md p-3 border border-zinc-200 justify-between">
             <div>

@@ -3,26 +3,19 @@
 // Limit Response 255
 
 
-interface Categoria {
+export interface Data {
 	descripcion: string
 	id_categoria: number
 	nombre: string
 }
 
-
-enum CodigoStatus {
-	200,
-	401,
-	404,
-	500,
-	409
-};
-
-
 // Status enum aqui
 
-interface Response {
+export interface Response {
 	message: string
-	status: CodigoStatus
-	data: Categoria[]
+	status:  number
+	data: Data[]
+	success: boolean
 }
+
+
