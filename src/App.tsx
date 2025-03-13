@@ -1,11 +1,14 @@
 import "./App.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Main } from "./routes/lazy-routes";
+import Navbar from "./ui/navbar";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-          <Route path="/" element={<div>Hello world</div>} />
+    <Navbar/>
+      <Routes >
+          <Route path="/" element={<Main/>} />
           <Route path="/main" element={<div>Gestion</div>} />
         </Routes>
     </BrowserRouter>

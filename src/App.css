@@ -1,3 +1,17 @@
-@import "tailwindcss"
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, emerald;
+  }
 
 
+
+@font-face {
+    font-family: "Ubuntu" ;
+    src: url("./fonts//Ubuntu-Light.ttf") format("truetype");
+}
+
+
+
+html{
+    font-family: "Ubuntu" ;
+}
